@@ -110,14 +110,33 @@ CREATE TABLE DJ (
     ON DELETE SET NULL
   FOREIGN KEY (priority_id) REFERENCES PriorityQ(priority_id)
     ON DELETE SET NULL
+);
 --=====================
 -- REQUESTED SONGS ====
 --=====================
-
-
+CREATE TABLE Requested_Songs (
+  user_id INT NOT NULL,
+  song_id INT NOT NULL,
+  paid BOOLEAN DEFAULT FALSE,
+  PRIMARY KEY (user_id, song_id)
+  FOREIGN KEY (user_id) REFERENCES User(user_id)
+    ON DELETE CASCADE,
+  FOREIGN KEY (song_id) REFERENCES Song(song_id)
+    ON DELETE SET CASCADE
+);
 --=====================
 -- CONTRIBUTOR ========
 --=====================
+TABLE Contributed ( 
+    contributor_id INT NOT NULL,
+    song_id INT NOT NULL,
+    contribution VARCHAR(100),
+    PRIMARY KEY (contributor_id, song_id),
+FOREIGN KEY (contributor_id) REFERENCES Contributor(contributor_id)
+    ON DELETE CASCADE,
+  FOREIGN KEY (song_id) REFERENCES Song(song_id)
+    ON DELETE SET CASCADE
+);
 
 
 
