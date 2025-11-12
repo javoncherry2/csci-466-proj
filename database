@@ -19,3 +19,110 @@ CREATE TABLE Song(
     type VARCHAR(50),
     title VARCHAR(150)
                 );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--====================
+-- DJ ================
+--====================
+CREATE TABLE DJ (
+  dj_id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100),
+  open_id INT,
+  priority_id INT,
+  currently_playing VARCHAR(150),
+  FOREIGN KEY (open_id) REFERENCES OpenQ(open_id)
+    ON DELETE SET NULL
+  FOREIGN KEY (priority_id) REFERENCES PriorityQ(priority_id)
+    ON DELETE SET NULL
+--=====================
+-- REQUESTED SONGS ====
+--=====================
+
+
+--=====================
+-- CONTRIBUTOR ========
+--=====================
+
+
+
+
+
+
+
+
