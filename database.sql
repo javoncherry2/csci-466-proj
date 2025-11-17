@@ -47,7 +47,7 @@ song_id INT NOT NULL,
 version VARCHAR(255) NOT NULL,
 file_name VARCHAR(255) NOT NULL,
 UNIQUE (file_name), 
-FOREIGN KEY (song_id) REFERENCES Song(song_id),
+FOREIGN KEY (song_id) REFERENCES Song(song_id)
 
                         );
 
