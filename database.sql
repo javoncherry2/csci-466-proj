@@ -55,7 +55,8 @@ CREATE TABLE KaraokeFile(
 CREATE TABLE OpenQ(
 open_id INT AUTO_INCREMENT PRIMARY KEY,
 file_id INT NOT NULL,
-`time` TIMESTAMP NOT NULL,
+user_id INT NOT NULL,
+`time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 FOREIGN KEY (file_id) REFERENCES KaraokeFile(file_id),
 FOREIGN KEY (user_id) REFERENCES User(user_id)
 
@@ -67,8 +68,10 @@ FOREIGN KEY (user_id) REFERENCES User(user_id)
 CREATE TABLE PriorityQ(
 priority_id INT AUTO_INCREMENT PRIMARY KEY,
 file_id INT NOT NULL,
-`time` TIMESTAMP NOT NULL,
-FOREIGN KEY (file_id) REFERENCES KaraokeFile(file_id)
+user_id INT NOT NULL,
+amount_paid DECIMAL(8,2) NOT NULL DEFAULT 0.00,
+`time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (file_id) REFERENCES KaraokeFile(file_id),
 FOREIGN KEY (user_id) REFERENCES User(user_id)
                       );
 
