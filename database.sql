@@ -190,7 +190,7 @@ INSERT INTO OpenQ (file_id, user_id) VALUES
 -- =========================================================
 -- PRIORITY QUEUE                               ============
 -- =========================================================
-INSERT INTO PriorityQ (file_id, user_id, paid) VALUES
+INSERT INTO PriorityQ (file_id, user_id, amount_paid) VALUES
 (2, 6, 5.00),
 (6, 7, 3.50),
 (9, 8, 10.00),
