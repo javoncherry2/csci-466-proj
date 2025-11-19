@@ -190,4 +190,31 @@ INSERT INTO Song
 ('Adele', 'Pop', 'Rolling in the Deep');
 
 
+INSERT INTO KaraokeFile (song_id, version, file_name) VALUES
+(1, 'Original', 'blinding_lights_v1.mp4'),
+(2, 'Original', 'save_your_tears_v1.mp4'),
+(3, 'Original', 'anti_hero_v1.mp4'),
+(4, 'Original', 'love_story_v1.mp4'),
+(5, 'Original', 'shape_of_you_v1.mp4'),
+(6, 'Original', 'perfect_v1.mp4'),
+(7, 'Original', 'gods_plan_v1.mp4'),
+(8, 'Original', 'one_dance_v1.mp4'),
+(9, 'Original', '24k_magic_v1.mp4'),
+(10, 'Original', 'thats_what_i_like_v1.mp4'),
+(11, 'Original', 'bad_guy_v1.mp4'),
+(12, 'Original', 'believer_v1.mp4'),
+(13, 'Original', 'demons_v1.mp4'),
+(14, 'Original', '7_rings_v1.mp4'),
+(15, 'Original', 'diamonds_v1.mp4'),
+(16, 'Original', 'umbrella_v1.mp4'),
+(17, 'Original', 'halo_v1.mp4'),
+(18, 'Original', 'circles_v1.mp4'),
+(19, 'Original', 'as_it_was_v1.mp4'),
+(20, 'Original', 'titi_me_pregunto_v1.mp4');
+
+
+
+
+
+
 
