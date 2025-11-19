@@ -229,7 +229,6 @@ INSERT INTO PriorityQ (file_id, user_id, amount_paid) VALUES
 -- =============================
 INSERT INTO DJ (name, currently_playing) VALUES
 ('DJ MixMaster', 1),
-('DJ Rhythm', NULL);
 
 
 
