@@ -11,6 +11,7 @@ DROP TABLE IF EXISTS KaraokeFile;
 DROP TABLE IF EXISTS Song;
 DROP TABLE IF EXISTS Contributor;
 DROP TABLE IF EXISTS User;
+DROP TABLE IF EXISTS ContributionType;
 
 --=====================
 --       User      ====
@@ -27,6 +28,14 @@ CREATE TABLE Contributor(
     contributor_id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL
                         );
+
+--=====================
+--  Contribution type =
+--=====================
+CREATE TABLE ContributionType(
+    contributionType_id INT PRIMARY KEY,
+    type VARCHAR(100) NOT NULL
+                             );
 
 --=====================
 --       SONG      ====
@@ -109,6 +118,7 @@ CREATE TABLE Contributed(
     contributor_id INT,
     song_id INT,
     contribution VARCHAR(150),
+    contributiontype_id INT,
     PRIMARY KEY(contributor_id, song_id),
     FOREIGN KEY(contributor_id) REFERENCES Contributor(contributor_id)
     ON DELETE CASCADE,
