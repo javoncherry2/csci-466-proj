@@ -4,9 +4,9 @@
 --drop tables if they exist
 DROP TABLE IF EXISTS Contributed;
 DROP TABLE IF EXISTS Requested_Songs;
-DROP TABLE IF EXISTS DJ;
 DROP TABLE IF EXISTS PriorityQ;
 DROP TABLE IF EXISTS OpenQ;
+DROP TABLE IF EXISTS DJ;
 DROP TABLE IF EXISTS KaraokeFile;
 DROP TABLE IF EXISTS Song;
 DROP TABLE IF EXISTS Contributor;
@@ -43,7 +43,7 @@ CREATE TABLE ContributionType(
 CREATE TABLE Song(
     song_id INT PRIMARY KEY AUTO_INCREMENT,
     main_artist VARCHAR(100) NOT NULL,
-    type VARCHAR(50) NOT NULL,
+    genre VARCHAR(50) NOT NULL,
     title VARCHAR(150) NOT NULL
                 );
 
@@ -61,17 +61,14 @@ FOREIGN KEY (song_id) REFERENCES Song(song_id)
                         );
 
 --=====================
---   Open Queue    ====
+--        DJ       ====
 --=====================
-CREATE TABLE OpenQ(
-open_id INT AUTO_INCREMENT PRIMARY KEY,
-file_id INT NOT NULL,
-user_id INT NOT NULL,
-`time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-FOREIGN KEY (file_id) REFERENCES KaraokeFile(file_id),
-FOREIGN KEY (user_id) REFERENCES User(user_id)
-
-                  );
+CREATE TABLE DJ(
+    dj_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(150),
+    currently_playing INT,
+    FOREIGN KEY(currently_playing) REFERENCES Song(song_id)
+               );
 
 --=====================
 --    PriorityQ    ====
@@ -80,28 +77,28 @@ CREATE TABLE PriorityQ(
 priority_id INT AUTO_INCREMENT PRIMARY KEY,
 file_id INT NOT NULL,
 user_id INT NOT NULL,
+dj_id INT NULL,
 amount_paid DECIMAL(8,2) NOT NULL DEFAULT 0.00,
 `time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 FOREIGN KEY (file_id) REFERENCES KaraokeFile(file_id),
-FOREIGN KEY (user_id) REFERENCES User(user_id)
+FOREIGN KEY (user_id) REFERENCES User(user_id),
+FOREIGN KEY(dj_id) REFERENCES DJ(dj_id)
                       );
 
 --=====================
---        DJ       ====
+--   Open Queue    ====
 --=====================
-CREATE TABLE DJ(
-    dj_id INT AUTO_INCREMENT PRIMARY KEY,
-    /*open_id INT,
-     priority_id INT,
-    */
-    name VARCHAR(150),
-    currently_playing INT,
-    FOREIGN KEY(currently_playing) REFERENCES Song(song_id)
-    /*
-    FOREIGN KEY(priority_id) REFERENCES PriorityQ(priority_id),
-    FOREIGN KEY(open_id) REFERENCES OpenQ(open_id)
-    */
-               );
+CREATE TABLE OpenQ(
+open_id INT AUTO_INCREMENT PRIMARY KEY,
+file_id INT NOT NULL,
+user_id INT NOT NULL,
+dj_id INT NULL,
+`time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (file_id) REFERENCES KaraokeFile(file_id),
+FOREIGN KEY (user_id) REFERENCES User(user_id),
+FOREIGN KEY(dj_id) REFERENCES DJ(dj_id)
+
+                  );
 
 --=====================
 -- REQUESTED SONGS ====
@@ -159,7 +156,7 @@ INSERT INTO User (user_id, name) VALUES
 --Inserts into Song ==
 --=====================
 INSERT INTO Song
-(main_artist, type, title)
+(main_artist, genre, title)
  VALUES
 ('The Weeknd', 'Pop', 'Blinding Lights'),
 ('The Weeknd', 'Pop', 'Save Your Tears'),
@@ -408,34 +405,35 @@ INSERT INTO KaraokeFile (song_id, version, file_name) VALUES
 (30,'Fast','rolling_in_the_deep_v2.mp4'),
 (30,'Slow','rolling_in_the_deep_v3.mp4');
 
-
---=====================
---Inserts into OpenQ ==
---=====================
-INSERT INTO OpenQ (file_id, user_id, time) VALUES
-(1, 1, '2025-11-22 19:11:02'),
-(4, 2, '2025-11-22 20:18:09'),
-(7, 3, '2025-11-22 21:54:20'),
-(10, 4, '2025-11-22 21:00:00'),
-(12, 5, '2025-11-22 22:50:04');
-
-
---=================================
--- Inserts into PRIORITY QUEUE ====
---=================================
-INSERT INTO PriorityQ (file_id, user_id, amount_paid, time) VALUES
-(2, 6, 5.00, '2025-11-22 19:15:20'),
-(6, 7, 3.50, '2025-11-22 20:11:12'),
-(9, 8, 10.00, '2025-11-22 20:34:30'),
-(15,9, 7.00, '2025-11-22 21:20:07'),
-(20,10,4.00, '2025-11-22 23:59:59');
-
 --======================
 -- Inserts into DJ =====
 --======================
 INSERT INTO DJ (name, currently_playing)
 VALUES
 ('DJ MixMaster', 1);
+
+--=====================
+--Inserts into OpenQ ==
+--=====================
+INSERT INTO OpenQ (file_id, user_id, time, dj_id) VALUES
+(1, 1, '2025-11-22 19:11:02', 1),
+(4, 2, '2025-11-22 20:18:09', 1),
+(7, 3, '2025-11-22 21:54:20', 1),
+(10, 4, '2025-11-22 21:00:00', 1),
+(12, 5, '2025-11-22 22:50:04', 1);
+
+
+--=================================
+-- Inserts into PRIORITY QUEUE ====
+--=================================
+INSERT INTO PriorityQ (file_id, user_id, amount_paid, time, dj_id) VALUES
+(2, 6, 5.00, '2025-11-22 19:15:20', 1),
+(6, 7, 3.50, '2025-11-22 20:11:12', 1),
+(9, 8, 10.00, '2025-11-22 20:34:30', 1),
+(15,9, 7.00, '2025-11-22 21:20:07', 1),
+(20,10,4.00, '2025-11-22 23:59:59', 1);
+
+
 
 
 
