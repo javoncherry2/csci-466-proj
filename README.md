@@ -18,12 +18,12 @@ Javon Cherry - Notes for 11/23
 7. Gave queues a foreign key to DJ to indicate which DJ is controlling the queue (only because of the changed ER).
 
 **Changes to ER diagram**
-1.Changed ternary relationship to two binary 1:1 relationships.
+1. Changed ternary relationship to two binary 1:1 relationships.
   -This was done because it was easier to work with. Without this change, we would have had to create another table for     the ternary relationship.
-2.Changed Song and Karaoke to 1:1 because there can only be one file per song, and vice versa.
-3.Changed KaraokeFile and sent to relationship to 1:M.
+2. Changed Song and Karaoke to 1:1 because there can only be one file per song, and vice versa.
+3. Changed KaraokeFile and sent to relationship to 1:M.
   -This is because a row in the queue refers to only one song file, but one file can appear in a queue multiple times.
-4.Added two 1:1 "can be in" relationships between User and the two queues.
+4. Added two 1:1 "can be in" relationships between User and the two queues.
   -This was necessary because we had a user_id foreign key in the queues without an relationship to get it.
 
 **Other Things**
