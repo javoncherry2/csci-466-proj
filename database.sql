@@ -66,8 +66,7 @@ FOREIGN KEY (song_id) REFERENCES Song(song_id)
 CREATE TABLE DJ(
     dj_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(150),
-    currently_playing INT,
-    FOREIGN KEY(currently_playing) REFERENCES Song(song_id)
+    currently_playing VARCHAR(150)
                );
 
 --=====================
@@ -410,7 +409,7 @@ INSERT INTO KaraokeFile (song_id, version, file_name) VALUES
 --======================
 INSERT INTO DJ (name, currently_playing)
 VALUES
-('DJ MixMaster', 1);
+('DJ MixMaster', "viva la vida");
 
 --=====================
 --Inserts into OpenQ ==
