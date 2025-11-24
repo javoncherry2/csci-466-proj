@@ -1,30 +1,34 @@
-<html> 
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>User Search</title>
+
+
+    <style>
+        .title1 {
+            color: blue;
+            font-size: 20px;
+            font-family: "Lexend", sans-serif;
+        }
+    </style>
+
 </head>
+
 <body>
 
-<h1>Search Songs</h1>
+<h1 class="title1">Search Songs</h1>
 
-<!-- DB teammate will replace this with PHP -->
+<!-- Search form -->
 <form method="get" action="index.php">
     <input type="text" name="q" placeholder="Search by title, artist, contributor">
     <button type="submit">Search</button>
 </form>
 
-<!-- DB teammate will inject PHP table here -->
+<!-- Results container -->
 <div id="results">
-    <!-- Placeholder table -->
     <p>Search results will appear here.</p>
 </div>
+
 </body>
 </html>
 
-
-
-
-
-</html>
