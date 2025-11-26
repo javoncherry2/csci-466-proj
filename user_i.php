@@ -7,15 +7,17 @@ $signupMessage = '';   // message to show after signing up
   1. HANDLE SIGNUP FORM (POST)
 ------------------------------------------*/
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
-    $file_id     = (int)($_POST['file_id'] ?? 0);
-    $user_id     = (int)($_POST['user_id'] ?? 0);
-    $queue_type  = $_POST['queue_type'] ?? 'open';
-    $amount_paid = $_POST['amount_paid'] ?? 0;
+
+    // Read values from the form (POST)
+    $file_id     = isset($_POST['file_id']) ? (int)$_POST['file_id'] : 0;
+    $user_id     = isset($_POST['user_id']) ? (int)$_POST['user_id'] : 0;
+    $queue_type  = isset($_POST['queue_type']) ? $_POST['queue_type'] : 'open';
+    $amount_paid = isset($_POST['amount_paid']) ? $_POST['amount_paid'] : 0;
 
     if ($file_id > 0 && $user_id > 0) {
         try {
             if ($queue_type === 'priority') {
-                // insert into
+                // Insert into PriorityQ
                 $sqlInsert = "
                     INSERT INTO PriorityQ (file_id, user_id, amount_paid, dj_id)
                     VALUES (:file_id, :user_id, :amount_paid, NULL)
@@ -28,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
                 ]);
                 $signupMessage = "Signed up for Priority Queue!";
             } else {
-                // insert into
+                // Insert into OpenQ
                 $sqlInsert = "
                     INSERT INTO OpenQ (file_id, user_id, dj_id)
                     VALUES (:file_id, :user_id, NULL)
@@ -51,22 +53,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
 /*-----------------------------------------
   2. READ SEARCH + SORT PARAMETERS (GET)
 ------------------------------------------*/
-$q         = $_GET['q'] ?? '';
-$search_by = $_GET['search_by'] ?? 'title';
 
+// Search text and search type
+$q         = isset($_GET['q']) ? $_GET['q'] : '';
+$search_by = isset($_GET['search_by']) ? $_GET['search_by'] : 'title';
+
+// Sorting
 $allowedSort = ['title', 'main_artist', 'genre', 'version'];
-$sort   = $_GET['sort'] ?? 'title';
-$order  = $_GET['order'] ?? 'asc';
+$sort   = isset($_GET['sort']) ? $_GET['sort'] : 'title';
+$order  = isset($_GET['order']) ? $_GET['order'] : 'asc';
 
 if (!in_array($sort, $allowedSort)) {
     $sort = 'title';
 }
-$order = ($order === 'desc') ? 'DESC' : 'ASC';
+if ($order === 'desc') {
+    $order = 'DESC';
+} else {
+    $order = 'ASC';
+}
 
 /*-----------------------------------------
   3. BUILD SEARCH QUERY
 ------------------------------------------*/
-// base SQL
+
+// Base SQL: every row is a Song + one of its KaraokeFile versions
 $sql = "
 SELECT
     Song.song_id,
@@ -82,26 +92,26 @@ JOIN KaraokeFile ON Song.song_id = KaraokeFile.song_id
 
 $params = [];
 
-// add join & where based on search type
+// Add WHERE clause depending on search type
 if ($q !== '') {
     if ($search_by === 'artist') {
         $sql .= " WHERE Song.main_artist LIKE :q";
-        $params[':q'] = "%$q%";
+        $params[':q'] = "%" . $q . "%";
     } elseif ($search_by === 'title') {
         $sql .= " WHERE Song.title LIKE :q";
-        $params[':q'] = "%$q%";
+        $params[':q'] = "%" . $q . "%";
     } elseif ($search_by === 'contributor') {
         $sql .= "
             JOIN Contributed ON Song.song_id = Contributed.song_id
             JOIN Contributor ON Contributed.contributor_id = Contributor.contributor_id
             WHERE Contributor.name LIKE :q
         ";
-        $params[':q'] = "%$q%";
+        $params[':q'] = "%" . $q . "%";
     }
 }
 
-// add ORDER BY for sorting
-$sql .= " ORDER BY $sort $order";
+// Add ORDER BY for sorting
+$sql .= " ORDER BY " . $sort . " " . $order;
 
 /*-----------------------------------------
   4. EXECUTE SONG SEARCH
@@ -117,18 +127,22 @@ $userStmt = $pdo->query("SELECT user_id, name FROM User ORDER BY name");
 $users = $userStmt->fetchAll(PDO::FETCH_ASSOC);
 
 /*-----------------------------------------
-  6. HELPER FOR SORT LINKS
+  6. PREPARE SORT LINKS (no helper function)
 ------------------------------------------*/
-function sortLink($column, $label) {
-    $currentSort  = $_GET['sort']  ?? 'title';
-    $currentOrder = $_GET['order'] ?? 'asc';
-    $newOrder = ($currentSort === $column && $currentOrder === 'asc') ? 'desc' : 'asc';
 
-    $q         = urlencode($_GET['q']         ?? '');
-    $search_by = urlencode($_GET['search_by'] ?? 'title');
+// We will compute what the next sort order should be for each column
+$currentSort  = $sort;
+$currentOrder = $order; // "ASC" or "DESC"
 
-    echo "<a href=\"?q=$q&search_by=$search_by&sort=$column&order=$newOrder\">$label</a>";
-}
+// For each column, if you're currently sorting by it ascending, next click = DESC, else ASC
+$titleOrder       = ($currentSort === 'title'       && $currentOrder === 'ASC') ? 'desc' : 'asc';
+$artistOrder      = ($currentSort === 'main_artist' && $currentOrder === 'ASC') ? 'desc' : 'asc';
+$genreOrder       = ($currentSort === 'genre'       && $currentOrder === 'ASC') ? 'desc' : 'asc';
+$versionOrder     = ($currentSort === 'version'     && $currentOrder === 'ASC') ? 'desc' : 'asc';
+
+// Keep current search inputs in links
+$qEncoded         = urlencode($q);
+$searchByEncoded  = urlencode($search_by);
 ?>
 <!DOCTYPE html>
 <html>
@@ -147,12 +161,12 @@ function sortLink($column, $label) {
 <!-- SEARCH FORM -->
 <form method="get" action="user_interface.php">
     <input type="text" name="q" placeholder="Search by title, artist, contributor"
-           value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>">
+           value="<?php echo htmlspecialchars($q); ?>">
 
     <select name="search_by">
-        <option value="title"      <?php if(($_GET['search_by'] ?? '') === 'title') echo 'selected'; ?>>Title</option>
-        <option value="artist"     <?php if(($_GET['search_by'] ?? '') === 'artist') echo 'selected'; ?>>Main Artist</option>
-        <option value="contributor"<?php if(($_GET['search_by'] ?? '') === 'contributor') echo 'selected'; ?>>Contributor</option>
+        <option value="title"      <?php if($search_by === 'title') echo 'selected'; ?>>Title</option>
+        <option value="artist"     <?php if($search_by === 'artist') echo 'selected'; ?>>Main Artist</option>
+        <option value="contributor"<?php if($search_by === 'contributor') echo 'selected'; ?>>Contributor</option>
     </select>
 
     <button type="submit">Search</button>
@@ -162,10 +176,26 @@ function sortLink($column, $label) {
 <?php if (count($results) > 0): ?>
     <table border="1" cellpadding="6" cellspacing="0">
         <tr>
-            <th><?php sortLink('title', 'Title'); ?></th>
-            <th><?php sortLink('main_artist', 'Artist'); ?></th>
-            <th><?php sortLink('genre', 'Genre'); ?></th>
-            <th><?php sortLink('version', 'Version'); ?></th>
+            <th>
+                <a href="user_interface.php?q=<?php echo $qEncoded; ?>&search_by=<?php echo $searchByEncoded; ?>&sort=title&order=<?php echo $titleOrder; ?>">
+                    Title
+                </a>
+            </th>
+            <th>
+                <a href="user_interface.php?q=<?php echo $qEncoded; ?>&search_by=<?php echo $searchByEncoded; ?>&sort=main_artist&order=<?php echo $artistOrder; ?>">
+                    Artist
+                </a>
+            </th>
+            <th>
+                <a href="user_interface.php?q=<?php echo $qEncoded; ?>&search_by=<?php echo $searchByEncoded; ?>&sort=genre&order=<?php echo $genreOrder; ?>">
+                    Genre
+                </a>
+            </th>
+            <th>
+                <a href="user_interface.php?q=<?php echo $qEncoded; ?>&search_by=<?php echo $searchByEncoded; ?>&sort=version&order=<?php echo $versionOrder; ?>">
+                    Version
+                </a>
+            </th>
             <th>File</th>
             <th>Sign Up</th>
         </tr>
