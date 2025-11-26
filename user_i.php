@@ -7,28 +7,28 @@ $signupMessage = '';   // message to show after signing up
   1. HANDLE SIGNUP FORM (POST)
 ------------------------------------------*/
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
-    $file_id    = (int)($_POST['file_id'] ?? 0);
-    $user_id    = (int)($_POST['user_id'] ?? 0);
-    $queue_type = $_POST['queue_type'] ?? 'open';
+    $file_id     = (int)($_POST['file_id'] ?? 0);
+    $user_id     = (int)($_POST['user_id'] ?? 0);
+    $queue_type  = $_POST['queue_type'] ?? 'open';
     $amount_paid = $_POST['amount_paid'] ?? 0;
 
     if ($file_id > 0 && $user_id > 0) {
         try {
             if ($queue_type === 'priority') {
-                // Insert into PriorityQ
+                // insert into
                 $sqlInsert = "
                     INSERT INTO PriorityQ (file_id, user_id, amount_paid, dj_id)
                     VALUES (:file_id, :user_id, :amount_paid, NULL)
                 ";
                 $stmtInsert = $pdo->prepare($sqlInsert);
                 $stmtInsert->execute([
-                    ':file_id'    => $file_id,
-                    ':user_id'    => $user_id,
-                    ':amount_paid'=> $amount_paid
+                    ':file_id'     => $file_id,
+                    ':user_id'     => $user_id,
+                    ':amount_paid' => $amount_paid
                 ]);
                 $signupMessage = "Signed up for Priority Queue!";
             } else {
-                // Insert into OpenQ
+                // insert into
                 $sqlInsert = "
                     INSERT INTO OpenQ (file_id, user_id, dj_id)
                     VALUES (:file_id, :user_id, NULL)
