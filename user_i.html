@@ -1,34 +1,25 @@
+<?php
+require 'db_connect.php';
+
+// 1) Read GET/POST data
+// 2) Run queries if needed
+// 3) Prepare data for HTML
+?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>User Search</title>
-
-
-    <style>
-        .title1 {
-            color: blue;
-            font-size: 20px;
-            font-family: "Lexend", sans-serif;
-        }
-    </style>
-
+    <title>Karaoke Search & Signup</title>
+    <link rel="stylesheet" href="style.css"> <!-- optional -->
 </head>
-
 <body>
 
-<h1 class="title1">Search Songs</h1>
+<h1>Search Songs</h1>
 
-<!-- Search form -->
-<form method="get" action="index.php">
-    <input type="text" name="q" placeholder="Search by title, artist, contributor">
-    <button type="submit">Search</button>
-</form>
+<!-- search form goes here -->
 
-<!-- Results container -->
-<div id="results">
-    <p>Search results will appear here.</p>
-</div>
+<!-- results table goes here -->
+
+<!-- messages for signup success/error go here -->
 
 </body>
 </html>
-
