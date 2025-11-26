@@ -177,22 +177,22 @@ $searchByEncoded  = urlencode($search_by);
     <table border="1" cellpadding="6" cellspacing="0">
         <tr>
             <th>
-                <a href="user_interface.php?q=<?php echo $qEncoded; ?>&search_by=<?php echo $searchByEncoded; ?>&sort=title&order=<?php echo $titleOrder; ?>">
+                <a href="user_i.php?q=<?php echo $qEncoded; ?>&search_by=<?php echo $searchByEncoded; ?>&sort=title&order=<?php echo $titleOrder; ?>">
                     Title
                 </a>
             </th>
             <th>
-                <a href="user_interface.php?q=<?php echo $qEncoded; ?>&search_by=<?php echo $searchByEncoded; ?>&sort=main_artist&order=<?php echo $artistOrder; ?>">
+                <a href="user_i.php?q=<?php echo $qEncoded; ?>&search_by=<?php echo $searchByEncoded; ?>&sort=main_artist&order=<?php echo $artistOrder; ?>">
                     Artist
                 </a>
             </th>
             <th>
-                <a href="user_interface.php?q=<?php echo $qEncoded; ?>&search_by=<?php echo $searchByEncoded; ?>&sort=genre&order=<?php echo $genreOrder; ?>">
+                <a href="user_i.php?q=<?php echo $qEncoded; ?>&search_by=<?php echo $searchByEncoded; ?>&sort=genre&order=<?php echo $genreOrder; ?>">
                     Genre
                 </a>
             </th>
             <th>
-                <a href="user_interface.php?q=<?php echo $qEncoded; ?>&search_by=<?php echo $searchByEncoded; ?>&sort=version&order=<?php echo $versionOrder; ?>">
+                <a href="user_i.php?q=<?php echo $qEncoded; ?>&search_by=<?php echo $searchByEncoded; ?>&sort=version&order=<?php echo $versionOrder; ?>">
                     Version
                 </a>
             </th>
