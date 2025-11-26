@@ -159,7 +159,7 @@ $searchByEncoded  = urlencode($search_by);
 <?php endif; ?>
 
 <!-- SEARCH FORM -->
-<form method="get" action="user_interface.php">
+<form method="get" action="user_i.php">
     <input type="text" name="q" placeholder="Search by title, artist, contributor"
            value="<?php echo htmlspecialchars($q); ?>">
 
@@ -209,7 +209,7 @@ $searchByEncoded  = urlencode($search_by);
                 <td><?php echo htmlspecialchars($row['file_name']); ?></td>
                 <td>
                     <!-- SIGNUP FORM FOR THIS SPECIFIC FILE/VERSION -->
-                    <form method="post" action="user_interface.php">
+                    <form method="post" action="user_i.php">
                         <input type="hidden" name="file_id" value="<?php echo (int)$row['file_id']; ?>">
 
                         <label>
