@@ -37,4 +37,8 @@ Hamzah Subhani - Notes for 11/26
 
 I was able to create the web interface! It shows all the songs and also has a search function to search by main artist, title, and contributor. I also tried requesting a song for both Queues. i logged into Javons MariaDB and checked both the openq and priorityq tables and it worked!! Click the header for each row to sort by asc or desc order. If you want to try it out for yourself, make sure to put database.sql, user_i.php and db_connect.php into your public_html folder and then click user_i.php on your domain to check it. I know Javon had a php file that establishes connection to the database but I added my own anyways. 
 
+Javon Cherry - 11/27
+
+I finished the Dj Interface. it handles removing the songs from the database and updating currently played. To use it, you can access it here: https://students.cs.niu.edu/~z2033811/proj/dj_face.php. I also uploaded it to github. I'm pretty sure that everything is working correctly, but lmk if you find anything weird when you try it. 
+
 
