@@ -35,6 +35,6 @@ If you have any questions or changes you want to make lmk.
 
 Hamzah Subhani - Notes for 11/26
 
-I was able to create the web interface! It shows all the songs and also has a search function to search by main artist, title, and contributor. I also tried requesting a song for both Queues. i logged into Javons MariaDB and checked both the openq and priorityq tables and it worked!! I am still trying to figure out how to sort descending and ascending when multiple rows and returned. If you want to try it out for youself, make sure to put database.sql, user_i.php and db_connect.php into your public_html folder and then click user_i.php on your domain to check it. I know Javon had a php file that establishes connection to the database but I added my own anyways. 
+I was able to create the web interface! It shows all the songs and also has a search function to search by main artist, title, and contributor. I also tried requesting a song for both Queues. i logged into Javons MariaDB and checked both the openq and priorityq tables and it worked!! Click the header for each row to sort by asc or desc order. If you want to try it out for yourself, make sure to put database.sql, user_i.php and db_connect.php into your public_html folder and then click user_i.php on your domain to check it. I know Javon had a php file that establishes connection to the database but I added my own anyways. 
 
 
