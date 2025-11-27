@@ -39,6 +39,6 @@ I was able to create the web interface! It shows all the songs and also has a se
 
 Javon Cherry - 11/27
 
-I finished the Dj Interface. it handles removing the songs from the database and updating currently played. To use it, you can access it here: https://students.cs.niu.edu/~z2033811/proj/dj_face.php. I also uploaded it to github. I'm pretty sure that everything is working correctly, but lmk if you find anything weird when you try it. 
+I finished the Dj Interface. it handles removing the songs from the database, sorting the queues, and updating currently played. To use it, you can access it here: https://students.cs.niu.edu/~z2033811/proj/dj_face.php. I also uploaded it to github. I'm pretty sure that everything is working correctly, but lmk if you find anything weird or somthing thats missing when you try it. 
 
 
