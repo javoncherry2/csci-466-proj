@@ -196,7 +196,7 @@ INSERT INTO ContributionType (contributionType_id, type)
 VALUES
     (1, 'Writer'),
     (2, 'Singer'),
-    (3, 'instrumentalist');
+    (3, 'Instrumentalist');
 
 
 --=================================
