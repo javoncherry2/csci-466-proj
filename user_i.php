@@ -170,14 +170,14 @@ $searchByEncoded  = urlencode($search_by);
 </head>
 <body>
 
-<h1>Search Songs</h1>
+<h1 class="page-title">Search Songs</h1>
 
 <?php if ($signupMessage): ?>
     <p><strong><?php echo htmlspecialchars($signupMessage); ?></strong></p>
 <?php endif; ?>
 
 <!-- SEARCH FORM -->
-<form method="get" action="user_i.php">
+<form method="get" action="user_i.php" class="search-form">
     <input type="text" name="q" placeholder="Search by title, artist, contributor"
            value="<?php echo htmlspecialchars($q); ?>">
 
@@ -192,7 +192,7 @@ $searchByEncoded  = urlencode($search_by);
 
 <!-- RESULTS TABLE -->
 <?php if (count($results) > 0): ?>
-    <table border="1" cellpadding="6" cellspacing="0">
+    <table class="results-table" border="1" cellpadding="6" cellspacing="0">
         <tr>
     <th>
         <a href="user_i.php?q=<?php echo $qEncoded; ?>&search_by=<?php echo $searchByEncoded; ?>&sort=title&order=<?php echo $titleOrder; ?>">
