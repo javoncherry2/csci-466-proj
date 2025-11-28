@@ -166,7 +166,7 @@ $searchByEncoded  = urlencode($search_by);
 <html>
 <head>
     <title>Karaoke Search & Signup</title>
-    <link rel="stylesheet" href="style.css"> <!-- optional -->
+    <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
 
