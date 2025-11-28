@@ -86,29 +86,47 @@ SELECT
     KaraokeFile.file_id,
     KaraokeFile.version,
     KaraokeFile.file_name
+";
+
+if ($search_by === 'contributor') {
+    // also select the contribution type
+    $sql .= ",
+    ContributionType.type AS contribution_type
+";
+}
+
+$sql .= "
 FROM Song
 JOIN KaraokeFile ON Song.song_id = KaraokeFile.song_id
 ";
 
 $params = [];
 
-// Add WHERE clause depending on search type
-if ($q !== '') {
-    if ($search_by === 'artist') {
-        $sql .= " WHERE Song.main_artist LIKE :q";
+// If we are searching by contributor, always join the contributor tables
+if ($search_by === 'contributor') {
+    $sql .= "
+        JOIN Contributed      ON Song.song_id = Contributed.song_id
+        JOIN Contributor      ON Contributed.contributor_id = Contributor.contributor_id
+        JOIN ContributionType ON Contributed.contributiontype_id = ContributionType.contributionType_id
+    ";
+
+    if ($q !== '') {
+        $sql .= " WHERE Contributor.name LIKE :q";
         $params[':q'] = "%" . $q . "%";
-    } elseif ($search_by === 'title') {
-        $sql .= " WHERE Song.title LIKE :q";
-        $params[':q'] = "%" . $q . "%";
-    } elseif ($search_by === 'contributor') {
-        $sql .= "
-            JOIN Contributed ON Song.song_id = Contributed.song_id
-            JOIN Contributor ON Contributed.contributor_id = Contributor.contributor_id
-            WHERE Contributor.name LIKE :q
-        ";
+    }
+
+} else {
+    // title / artist searches
+    if ($q !== '') {
+        if ($search_by === 'artist') {
+            $sql .= " WHERE Song.main_artist LIKE :q";
+        } else { // title by default
+            $sql .= " WHERE Song.title LIKE :q";
+        }
         $params[':q'] = "%" . $q . "%";
     }
 }
+
 
 // Add ORDER BY for sorting
 $sql .= " ORDER BY " . $sort . " " . $order;
@@ -176,30 +194,34 @@ $searchByEncoded  = urlencode($search_by);
 <?php if (count($results) > 0): ?>
     <table border="1" cellpadding="6" cellspacing="0">
         <tr>
-            <th>
-                <a href="user_i.php?q=<?php echo $qEncoded; ?>&search_by=<?php echo $searchByEncoded; ?>&sort=title&order=<?php echo $titleOrder; ?>">
-                    Title
-                </a>
-            </th>
-            <th>
-                <a href="user_i.php?q=<?php echo $qEncoded; ?>&search_by=<?php echo $searchByEncoded; ?>&sort=main_artist&order=<?php echo $artistOrder; ?>">
-                    Artist
-                </a>
-            </th>
-            <th>
-                <a href="user_i.php?q=<?php echo $qEncoded; ?>&search_by=<?php echo $searchByEncoded; ?>&sort=genre&order=<?php echo $genreOrder; ?>">
-                    Genre
-                </a>
-            </th>
-            <th>
-                <a href="user_i.php?q=<?php echo $qEncoded; ?>&search_by=<?php echo $searchByEncoded; ?>&sort=version&order=<?php echo $versionOrder; ?>">
-                    Version
-                </a>
-            </th>
-            <th>File</th>
-            <th>Sign Up</th>
-        </tr>
+    <th>
+        <a href="user_i.php?q=<?php echo $qEncoded; ?>&search_by=<?php echo $searchByEncoded; ?>&sort=title&order=<?php echo $titleOrder; ?>">
+            Title
+        </a>
+    </th>
+    <th>
+        <a href="user_i.php?q=<?php echo $qEncoded; ?>&search_by=<?php echo $searchByEncoded; ?>&sort=main_artist&order=<?php echo $artistOrder; ?>">
+            Artist
+        </a>
+    </th>
+    <th>
+        <a href="user_i.php?q=<?php echo $qEncoded; ?>&search_by=<?php echo $searchByEncoded; ?>&sort=genre&order=<?php echo $genreOrder; ?>">
+            Genre
+        </a>
+    </th>
+    <th>
+        <a href="user_i.php?q=<?php echo $qEncoded; ?>&search_by=<?php echo $searchByEncoded; ?>&sort=version&order=<?php echo $versionOrder; ?>">
+            Version
+        </a>
+    </th>
+    <th>File</th>
 
+    <?php if ($search_by === 'contributor'): ?>
+        <th>Contribution</th>
+    <?php endif; ?>
+
+    <th>Sign Up</th>
+</tr>
         <?php foreach ($results as $row): ?>
             <tr>
                 <td><?php echo htmlspecialchars($row['title']); ?></td>
@@ -207,6 +229,9 @@ $searchByEncoded  = urlencode($search_by);
                 <td><?php echo htmlspecialchars($row['genre']); ?></td>
                 <td><?php echo htmlspecialchars($row['version']); ?></td>
                 <td><?php echo htmlspecialchars($row['file_name']); ?></td>
+          <?php if ($search_by === 'contributor'): ?>
+                <td><?php echo htmlspecialchars($row['contribution_type']); ?></td>
+          <?php endif; ?>
                 <td>
                     <!-- SIGNUP FORM FOR THIS SPECIFIC FILE/VERSION -->
                     <form method="post" action="user_i.php">
