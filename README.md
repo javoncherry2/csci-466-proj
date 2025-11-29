@@ -41,4 +41,17 @@ Javon Cherry - 11/27
 
 I finished the Dj Interface. it handles removing the songs from the database, sorting the queues, and updating currently played. To use it, you can access it here: https://students.cs.niu.edu/~z2033811/proj/dj_face.php. I also uploaded it to github. I'm pretty sure that everything is working correctly, but lmk if you find anything weird or somthing thats missing when you try it. 
 
+Hamzah Subhani - Notes for 11/28
+
+MORGAN - i have created a styles.css file for you that will style my web interface. Javon can include this file too in dj_interface.php. These are the classes I'll need styles for:
+
+• .home-btn
+• .page-title
+• .search-form
+• .results-table
+
+
+Just play with font and color. dont do anything like add spacing to the table because I already mess with that in my file. Just make it stylish pls :)
+
+
 
