@@ -1,5 +1,3 @@
-#php file for dj interface 
-
 <html><head><title>Karaoke Queues </title></head>
 <body>
 <?php
