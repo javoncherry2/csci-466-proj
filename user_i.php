@@ -191,7 +191,7 @@ $searchByEncoded  = urlencode($search_by);
 <body>
 
 <h1 class="page-title">Search Songs</h1>
-<a href="https://students.cs.niu.edu/~z2010017/" class="home-btn">
+<a href="https://students.cs.niu.edu/~z2010017/user_i.php" class="home-btn">
     Back to Home
 </a>
 <br>
