@@ -1,20 +1,11 @@
+#php file for dj interface 
+
 <html><head><title>Karaoke Queues </title></head>
 <body>
 <?php
 
-#includes password
-include "password.php";
-
-#connects
-try{
-$dsn = "mysql:host=courses;dbname=z2033811";
-$pdo = new PDO($dsn, $username, $password);
-   }
-
-#catch any errors
-catch(PDOException$e){
-	echo "could not connect" . $e->getMessage();
-		     }
+#connects database
+require "db_connect.php";
 
 #list current song playing
 $song_playing = $pdo->query("SELECT currently_playing FROM DJ;");
@@ -122,7 +113,7 @@ echo "<th>Name</th>";
 echo "<th>Song</th>";
 echo "<th>Artist</th>";
 echo "<th>File ID</th>";
-echo "<th>Time resquested</th>";
+echo "<th>Time requested</th>";
 echo "</tr>";
 
 #adds free queue
@@ -189,7 +180,7 @@ echo "<th>Name</th>";
 echo "<th>Song</th>";
 echo "<th>Artist</th>";
 echo "<th>File ID</th>";
-echo "<th>Time resquested</th>";
+echo "<th>Time requested</th>";
 echo "<th>Amount Paid</th>";
 echo "</tr>";
 
