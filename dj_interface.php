@@ -16,7 +16,7 @@ if(isset($_POST['delete'])){
 	#if deleting from free queue
 	if($_POST['delete'] == 'f'){
 		$sql = "DELETE FROM OpenQ
-			WHERE time = (SELECT * FROM (SELECT MIN(time) FROM OpenQ) AS time);";
+			WHERE time = (SELECT MIN(time) FROM OpenQ);";
 			
 	         #gets title of song that is being played		
 		 $sql2 = "Select Song.title 
@@ -37,7 +37,7 @@ if(isset($_POST['delete'])){
 	#delete by time
 	 if(!isset($_GET['sort']) || $_GET['sort'] == 'time'){
 		$sql = "DELETE FROM PriorityQ
-			WHERE time = (SELECT * FROM (SELECT MIN(time) FROM PriorityQ) AS paid);";
+			WHERE time = (SELECT MIN(time) FROM PriorityQ);";
 
 		 #gets title of song that is being played		
 		 $sql2 = "Select Song.title 
@@ -50,7 +50,7 @@ if(isset($_POST['delete'])){
 	 #delete by amount_paid
 	 else{
 	     $sql = "DELETE FROM PriorityQ
-		     WHERE amount_paid = (SELECT * FROM (SELECT MAX(amount_paid) FROM PriorityQ) AS paid);";
+		     WHERE amount_paid = (SELECT MAX(amount_paid) FROM PriorityQ);";
 
 	     $sql2 = "Select Song.title 
                       FROM PriorityQ 
@@ -68,8 +68,10 @@ if(isset($_POST['delete'])){
 	$pdo->exec("UPDATE DJ SET currently_playing = " . $pdo->quote($song[0]));
 	$pdo->exec($sql);
 	
-	#refreshed page for currently playing
-	header("Location: ".$_SERVER['PHP_SELF']);
+	#refreshed page for currently playing and keeps sorting
+	$sort = $_GET['sort'] ?? 'time';
+	#header("Location: ".$_SERVER['PHP_SELF']);
+	header("Location: ".$_SERVER['PHP_SELF']."?sort=$sort");
         exit;
 	      		   }
 
