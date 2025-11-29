@@ -80,11 +80,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
 ------------------------------------------*/
 
 
-// Search text and search type
+// search text and search type
 $q         = isset($_GET['q']) ? $_GET['q'] : '';
 $search_by = isset($_GET['search_by']) ? $_GET['search_by'] : 'title';
 
-// Sorting
+// sorting
 $allowedSort = ['title', 'main_artist', 'genre', 'version'];
 $sort   = isset($_GET['sort']) ? $_GET['sort'] : 'title';
 $order  = isset($_GET['order']) ? $_GET['order'] : 'asc';
@@ -102,7 +102,7 @@ if ($order === 'desc') {
   3. BUILD SEARCH QUERY
 ------------------------------------------*/
 
-// Base SQL: every row is a Song + one of its KaraokeFile versions
+// base sql: every row is a Song + one of its KaraokeFile versions
 $sql = "
 SELECT
     Song.song_id,
@@ -128,7 +128,7 @@ JOIN KaraokeFile ON Song.song_id = KaraokeFile.song_id
 
 $params = [];
 
-// If we are searching by contributor, always join the contributor tables
+// if we are searching by contributor, always join the contributor tables
 if ($search_by === 'contributor') {
     $sql .= "
         JOIN Contributed      ON Song.song_id = Contributed.song_id
@@ -154,7 +154,7 @@ if ($search_by === 'contributor') {
 }
 
 
-// Add ORDER BY for sorting
+// add order by for sorting
 $sql .= " ORDER BY " . $sort . " " . $order;
 
 /*-----------------------------------------
@@ -165,20 +165,20 @@ $stmt->execute($params);
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 /*-----------------------------------------
-  6. PREPARE SORT LINKS (no helper function)
+  6. PREPARE SORT LINKS 
 ------------------------------------------*/
 
-// We will compute what the next sort order should be for each column
+// we will compute what the next sort order should be for each column
 $currentSort  = $sort;
 $currentOrder = $order; // "ASC" or "DESC"
 
-// For each column, if you're currently sorting by it ascending, next click = DESC, else ASC
+// for each column, if you're currently sorting by it ascending, next click = DESC, else ASC
 $titleOrder       = ($currentSort === 'title'       && $currentOrder === 'ASC') ? 'desc' : 'asc';
 $artistOrder      = ($currentSort === 'main_artist' && $currentOrder === 'ASC') ? 'desc' : 'asc';
 $genreOrder       = ($currentSort === 'genre'       && $currentOrder === 'ASC') ? 'desc' : 'asc';
 $versionOrder     = ($currentSort === 'version'     && $currentOrder === 'ASC') ? 'desc' : 'asc';
 
-// Keep current search inputs in links
+// keep current search inputs in links
 $qEncoded         = urlencode($q);
 $searchByEncoded  = urlencode($search_by);
 ?>
@@ -191,6 +191,12 @@ $searchByEncoded  = urlencode($search_by);
 <body>
 
 <h1 class="page-title">Search Songs</h1>
+<a href="https://students.cs.niu.edu/~z2010017/" class="home-btn">
+    Back to Home
+</a>
+<br>
+<br>
+
 
 <?php if ($signupMessage): ?>
     <p><strong><?php echo htmlspecialchars($signupMessage); ?></strong></p>
