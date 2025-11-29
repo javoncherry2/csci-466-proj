@@ -3,51 +3,72 @@ require 'db_connect.php';
 
 $signupMessage = '';   // message to show after signing up
 
-/*-----------------------------------------
-  1. HANDLE SIGNUP FORM (POST)
-------------------------------------------*/
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
+$file_id     = isset($_POST['file_id']) ? (int)$_POST['file_id'] : 0;
+$user_name   = isset($_POST['user_name']) ? trim($_POST['user_name']) : '';
+$queue_type  = isset($_POST['queue_type']) ? $_POST['queue_type'] : 'open';
+$amount_paid = isset($_POST['amount_paid']) ? $_POST['amount_paid'] : 0;
 
-    // Read values from the form (POST)
-    $file_id     = isset($_POST['file_id']) ? (int)$_POST['file_id'] : 0;
-    $user_id     = isset($_POST['user_id']) ? (int)$_POST['user_id'] : 0;
-    $queue_type  = isset($_POST['queue_type']) ? $_POST['queue_type'] : 'open';
-    $amount_paid = isset($_POST['amount_paid']) ? $_POST['amount_paid'] : 0;
+// we will fill this variable after we find or create the user
+$user_id = 0;
 
-    if ($file_id > 0 && $user_id > 0) {
-        try {
-            if ($queue_type === 'priority') {
-                // Insert into PriorityQ
-                $sqlInsert = "
-                    INSERT INTO PriorityQ (file_id, user_id, amount_paid, dj_id)
-                    VALUES (:file_id, :user_id, :amount_paid, NULL)
-                ";
-                $stmtInsert = $pdo->prepare($sqlInsert);
-                $stmtInsert->execute([
-                    ':file_id'     => $file_id,
-                    ':user_id'     => $user_id,
-                    ':amount_paid' => $amount_paid
-                ]);
-                $signupMessage = "Signed up for Priority Queue!";
-            } else {
-                // Insert into OpenQ
-                $sqlInsert = "
-                    INSERT INTO OpenQ (file_id, user_id, dj_id)
-                    VALUES (:file_id, :user_id, NULL)
-                ";
-                $stmtInsert = $pdo->prepare($sqlInsert);
-                $stmtInsert->execute([
-                    ':file_id' => $file_id,
-                    ':user_id' => $user_id
-                ]);
-                $signupMessage = "Signed up for Free Queue!";
-            }
-        } catch (PDOException $e) {
-            $signupMessage = "Error signing up: " . $e->getMessage();
+if ($file_id > 0 && $user_name !== '') {
+    try {
+        // 1) check if this user already exists
+        $findUser = $pdo->prepare("
+            SELECT user_id 
+            FROM User 
+            WHERE name = :name
+            LIMIT 1
+        ");
+        $findUser->execute([':name' => $user_name]);
+        $existing = $findUser->fetch(PDO::FETCH_ASSOC);
+
+        if ($existing) {
+            // reuse existing user_id
+            $user_id = (int)$existing['user_id'];
+        } else {
+            // 2) insert new user
+            $insertUser = $pdo->prepare("
+                INSERT INTO User (name) 
+                VALUES (:name)
+            ");
+            $insertUser->execute([':name' => $user_name]);
+            $user_id = (int)$pdo->lastInsertId();
         }
-    } else {
-        $signupMessage = "Please select a user and a valid song/version.";
+
+        // 3) now insert into the appropriate queue table
+        if ($queue_type === 'priority') {
+            $sqlInsert = "
+                INSERT INTO PriorityQ (file_id, user_id, amount_paid, dj_id)
+                VALUES (:file_id, :user_id, :amount_paid, NULL)
+            ";
+            $stmtInsert = $pdo->prepare($sqlInsert);
+            $stmtInsert->execute([
+                ':file_id'     => $file_id,
+                ':user_id'     => $user_id,
+                ':amount_paid' => $amount_paid
+            ]);
+            $signupMessage = "Signed up for Priority Queue!";
+        } else {
+            $sqlInsert = "
+                INSERT INTO OpenQ (file_id, user_id, dj_id)
+                VALUES (:file_id, :user_id, NULL)
+            ";
+            $stmtInsert = $pdo->prepare($sqlInsert);
+            $stmtInsert->execute([
+                ':file_id' => $file_id,
+                ':user_id' => $user_id
+            ]);
+            $signupMessage = "Signed up for Free Queue!";
+        }
+
+    } catch (PDOException $e) {
+        $signupMessage = "Error signing up: " . $e->getMessage();
     }
+} else {
+    $signupMessage = "Please enter your name and select a valid song/version.";
+}
+
 }
 
 /*-----------------------------------------
@@ -137,12 +158,6 @@ $sql .= " ORDER BY " . $sort . " " . $order;
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-/*-----------------------------------------
-  5. FETCH USERS FOR DROPDOWN
-------------------------------------------*/
-$userStmt = $pdo->query("SELECT user_id, name FROM User ORDER BY name");
-$users = $userStmt->fetchAll(PDO::FETCH_ASSOC);
 
 /*-----------------------------------------
   6. PREPARE SORT LINKS (no helper function)
@@ -236,20 +251,11 @@ $searchByEncoded  = urlencode($search_by);
                     <!-- SIGNUP FORM FOR THIS SPECIFIC FILE/VERSION -->
                     <form method="post" action="user_i.php">
                         <input type="hidden" name="file_id" value="<?php echo (int)$row['file_id']; ?>">
-
-                        <label>
-                            User:
-                            <select name="user_id" required>
-                                <option value="">-- Select User --</option>
-                                <?php foreach ($users as $u): ?>
-                                    <option value="<?php echo (int)$u['user_id']; ?>">
-                                        <?php echo htmlspecialchars($u['name']); ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </label>
+                <label>
+                 User:
+                    <input type="text" name="user_name" required placeholder="Enter your name">
+                </label>
                         <br>
-
                         <label>
                             Queue:
                             <select name="queue_type">
