@@ -1,0 +1,122 @@
+/* ===== Global Reset ===== */
+/* Resets default browser styles for consistency across elements */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ===== Page Background ===== */
+/* Creates the main gradient background for the karaoke interface */
+body {
+    background: linear-gradient(135deg, #2a2a72, #009ffd);
+    color: #fff;
+    padding: 40px 20px;
+}
+
+/* ===== Auto-Style Main Sections ===== */
+/* Applies a card-like appearance to all top-level page elements */
+body > * {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(6px);
+    padding: 25px;
+    margin: 0 auto 30px auto;
+    border-radius: 14px;
+    max-width: 900px;
+    box-shadow: 0px 8px 22px rgba(0, 0, 0, 0.35);
+}
+
+/* ===== Headings ===== */
+/* Centers and styles all heading elements for consistency */
+h1, h2, h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* ===== Tables ===== */
+/* Styles tables to have alternating rows and a clean frosted-glass effect */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 16px;
+}
+
+th {
+    background: rgba(255, 255, 255, 0.25);
+    padding: 12px;
+    font-size: 18px;
+}
+
+td {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 12px;
+}
+
+tr:nth-child(even) td {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* ===== Forms ===== */
+/* Ensures all inputs and selects have consistent sizing and spacing */
+form {
+    width: 100%;
+    margin-top: 20px;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0 20px 0;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+}
+
+/* ===== Buttons ===== */
+/* Styles all buttons and submit inputs with color, animation, and hover effects */
+button, input[type="submit"] {
+    background: #ff477e;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+button:hover, input[type="submit"]:hover {
+    background: #ff6790;
+    transform: translateY(-2px);
+}
+
+/* ===== Links ===== */
+/* Improves readability and styling of all normal links */
+a {
+    color: #ffeaf3;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* ===== Messages ===== */
+/* Styles success and error message boxes to stand out visibly */
+.error {
+    background: rgba(255, 80, 80, 0.35);
+    padding: 14px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.success {
+    background: rgba(80, 255, 150, 0.35);
+    padding: 14px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
