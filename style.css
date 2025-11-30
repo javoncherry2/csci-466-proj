@@ -1,122 +1,81 @@
-/* ===== Global Reset ===== */
-/* Resets default browser styles for consistency across elements */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* ===== Page Background ===== */
-/* Creates the main gradient background for the karaoke interface */
-body {
-    background: linear-gradient(135deg, #2a2a72, #009ffd);
-    color: #fff;
-    padding: 40px 20px;
-}
-
-/* ===== Auto-Style Main Sections ===== */
-/* Applies a card-like appearance to all top-level page elements */
-body > * {
-    background: rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(6px);
-    padding: 25px;
-    margin: 0 auto 30px auto;
-    border-radius: 14px;
-    max-width: 900px;
-    box-shadow: 0px 8px 22px rgba(0, 0, 0, 0.35);
-}
-
-/* ===== Headings ===== */
-/* Centers and styles all heading elements for consistency */
-h1, h2, h3 {
+/* ============================================================
+   .page-title
+   Styles the page header with a professional, readable look.
+   ============================================================ */
+.page-title {
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #3549a8;        /* Deep modern blue */
     text-align: center;
-    margin-bottom: 20px;
-    font-weight: bold;
 }
 
-/* ===== Tables ===== */
-/* Styles tables to have alternating rows and a clean frosted-glass effect */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-    font-size: 16px;
-}
 
-th {
-    background: rgba(255, 255, 255, 0.25);
-    padding: 12px;
-    font-size: 18px;
-}
-
-td {
-    background: rgba(255, 255, 255, 0.15);
-    padding: 12px;
-}
-
-tr:nth-child(even) td {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-/* ===== Forms ===== */
-/* Ensures all inputs and selects have consistent sizing and spacing */
-form {
-    width: 100%;
-    margin-top: 20px;
-}
-
-input, select {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0 20px 0;
-    border-radius: 10px;
+/* ============================================================
+   .home-btn
+   Styles the home button with simple color and hover feedback.
+   ============================================================ */
+.home-btn {
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    background-color: #4a67d6;   /* Soft blue */
+    color: #ffffff;
     border: none;
-    font-size: 16px;
-}
-
-/* ===== Buttons ===== */
-/* Styles all buttons and submit inputs with color, animation, and hover effects */
-button, input[type="submit"] {
-    background: #ff477e;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 12px;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s ease;
-}
-
-button:hover, input[type="submit"]:hover {
-    background: #ff6790;
-    transform: translateY(-2px);
-}
-
-/* ===== Links ===== */
-/* Improves readability and styling of all normal links */
-a {
-    color: #ffeaf3;
-    font-weight: bold;
+    border-radius: 6px;
     text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
 }
 
-a:hover {
-    text-decoration: underline;
+.home-btn:hover {
+    background-color: #5a79f0;   /* Slightly brighter blue */
 }
 
-/* ===== Messages ===== */
-/* Styles success and error message boxes to stand out visibly */
-.error {
-    background: rgba(255, 80, 80, 0.35);
-    padding: 14px;
-    border-radius: 10px;
-    margin-bottom: 20px;
+
+/* ============================================================
+   .search-form
+   Styles form text and inputs without altering layout or spacing.
+   ============================================================ */
+.search-form {
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    color: #333333;
 }
 
-.success {
-    background: rgba(80, 255, 150, 0.35);
-    padding: 14px;
-    border-radius: 10px;
-    margin-bottom: 20px;
+.search-form input,
+.search-form select {
+    font-family: inherit;
+    color: #1a1a1a;
+    border: 1px solid #a5b4f4;   /* Light blue border */
+    border-radius: 4px;
+}
+
+.search-form input:focus,
+.search-form select:focus {
+    outline: none;
+    border-color: #4a67d6;
+}
+
+
+/* ============================================================
+   .results-table
+   Applies color and font styling only (no layout changes).
+   ============================================================ */
+.results-table {
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    color: #000000;
+    background-color: #e8ebfa;   /* Very light blue */
+    border-collapse: collapse;
+}
+
+.results-table th {
+    background-color: #4a67d6;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.results-table tr:nth-child(even) {
+    background-color: #f2f4ff;   /* Lighter alternate row */
+}
+
+.results-table tr:hover {
+    background-color: #d3dbff;   /* Subtle hover highlight */
 }
