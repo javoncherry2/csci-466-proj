@@ -1,4 +1,5 @@
-<html><head><title>Karaoke Queues </title></head>
+<html><head><title>Karaoke Queues </title><link rel="stylesheet" href="style.css">
+</head>
 <body>
 <?php
 
