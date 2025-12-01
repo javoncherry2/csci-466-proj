@@ -79,3 +79,28 @@
 .results-table tr:hover {
     background-color: #d3dbff;   /* Subtle hover highlight */
 }
+
+/* ============================================================
+   .dj-table
+   Applies color and font styling only (no layout changes).
+   ============================================================ */
+.dj-table {
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    color: #000000;
+    background-color: #e8ebfa;   /* Very light blue */
+    border-collapse: collapse;
+}
+
+.dj-table th {
+    background-color: #4a67d6;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.dj-table tr:nth-child(even) {
+    background-color: #f2f4ff;   /* Lighter alternate row */
+}
+
+.dj-table tr:hover {
+    background-color: #d3dbff;   /* Subtle hover highlight */
+}
