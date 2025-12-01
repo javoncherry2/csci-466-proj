@@ -75,12 +75,6 @@ if(isset($_POST['delete'])){
         exit;
 	      		   }
 
-
-
-
-
-
-
 #get data from database
 $sql = "SELECT User.name, Song.title, Song.main_artist, KaraokeFile.file_id, OpenQ.time
 FROM OpenQ
@@ -96,7 +90,7 @@ $numrows = count($rows);
 
 #label for free queue
 
-echo "<h2 style='text-align:center;'>Free Queue</h2>";
+echo "<h2 class='header2' style='text-align:center;'>Free Queue</h2>";      
 
 #if nothing is in the queue
 if($numrows == 0){
@@ -104,7 +98,7 @@ if($numrows == 0){
 		 }
 else{
 echo "<br> <br>";
-echo "<table border=2 style='margin-left:auto; margin-right:auto;'>";
+echo "<table class='dj-table' border=2 style='margin-left:auto; margin-right:auto;'>";
 
 #makes headers
 echo "<tr>";
@@ -134,7 +128,7 @@ echo "</table>";
 }
 echo "<br> <br>";
 #level for priority queue
-echo "<h2 style='text-align:center;'>Priority Queue</h2>";
+echo "<h2 class='header2' style='text-align:center;'>Priority Queue</h2>";
 
 #creates second tables
 
@@ -171,7 +165,7 @@ if($numrows == 0){
 	echo '<p style="text-align:center;">Queue is empty</p>';
 		 }
 else{
-echo "<table border=2 style='margin-left:auto; margin-right:auto;'>";
+echo "<table class='dj-table' border=2 style='margin-left:auto; margin-right:auto;'>";
 
 #makes headers
 echo "<tr>";
