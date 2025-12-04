@@ -103,7 +103,7 @@ echo "<table class='dj-table' border=2 style='margin-left:auto; margin-right:aut
 
 #makes headers
 echo "<tr>";
-echo "<th>order</th>";
+echo "<th>Order</th>";
 echo "<th>Name</th>";
 echo "<th>Song</th>";
 echo "<th>Artist</th>";
@@ -170,7 +170,7 @@ echo "<table class='dj-table' border=2 style='margin-left:auto; margin-right:aut
 
 #makes headers
 echo "<tr>";
-echo "<th>order</th>";
+echo "<th>Order</th>";
 echo "<th>Name</th>";
 echo "<th>Song</th>";
 echo "<th>Artist</th>";
