@@ -1,5 +1,7 @@
---script file
---creates tables and inserts song
+-- =========================================================
+-- CSCI 466 Karaoke Management System
+-- Part 4 - Creates the Database (DDL)
+-- =========================================================
 
 --drop tables if they exist
 DROP TABLE IF EXISTS Contributed;
